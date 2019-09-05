@@ -6,6 +6,7 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "knplabs/knp-paginator-bundle": "^4.0",
+        "league/csv": "^9.3",
         "sensio/framework-extra-bundle": "^5.4",
         "symfony/console": "4.3.*",
         "symfony/dotenv": "4.3.*",

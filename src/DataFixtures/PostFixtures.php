@@ -16,7 +16,7 @@ class PostFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         for ($i = 0; $i < self::POST_COUNT; $i++) {
-            $product = new Post("Post" . $i);
+            $product = new Post("Post" . $i,'Anon');
             $manager->persist($product);
         }
 

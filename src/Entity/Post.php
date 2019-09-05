@@ -24,8 +24,8 @@ class Post
     private $body;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
-     * @var User
+     * @ORM\Column(type="text", name="author", nullable=false)
+     * @var string
      */
     private $author;
 
@@ -35,8 +35,9 @@ class Post
      */
     private $createdAt;
 
-    public function __construct(string $body)
+    public function __construct(string $body, string $author)
     {
+        $this->author = $author;
         $this->body = $body;
         $this->createdAt = new \DateTime();
     }
@@ -59,7 +60,7 @@ class Post
      */
     public function getAuthor(): string
     {
-        return $this->author === null ? 'Guest' : $this->author->getUsername();
+        return $this->author;
     }
 
     /**

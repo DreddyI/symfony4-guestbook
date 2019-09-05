@@ -42,7 +42,8 @@
             </div>
         {% endfor %}
 
-        <h1>GuestBook <a href="{{ path('guestbook_create_view') }}">[add]</a></h1>
+        <h1>GuestBook <a href="{{ path('guestbook_create_view') }}">[add]</a> <a href="{{ path('guestbook_export') }}">[export]</a>
+        </h1>
 
         <div class="navigation">
             {{ knp_pagination_render(pagination) }}

@@ -102,6 +102,9 @@
     "knplabs/knp-paginator-bundle": {
         "version": "v4.0.0"
     },
+    "league/csv": {
+        "version": "9.3.0"
+    },
     "nikic/php-parser": {
         "version": "v4.2.4"
     },

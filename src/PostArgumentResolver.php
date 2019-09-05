@@ -8,7 +8,6 @@ namespace App;
 use App\Request\CreatePostRequest;
 use App\Request\PostRequest;
 use Generator;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\HttpKernel\Controller\ArgumentValueResolverInterface;
@@ -80,7 +79,7 @@ final class PostArgumentResolver implements ArgumentValueResolverInterface
      */
     public function resolve(Request $request, ArgumentMetadata $argument)
     {
-        if(null ===$request->request->all()){
+        if (null === $request->request->all()) {
             return;
         }
 
@@ -94,7 +93,7 @@ final class PostArgumentResolver implements ArgumentValueResolverInterface
         if (count($errors) > 0) {
             $this->renderFlashMessages($errors);
             // this should prob remove but for now it's ok
-            throw new BadRequestHttpException((string) $errors);
+            throw new BadRequestHttpException((string)$errors);
         }
 
         yield $obj;

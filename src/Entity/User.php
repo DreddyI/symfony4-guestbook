@@ -33,11 +33,11 @@ class User implements UserInterface
      */
     private $password;
 
-    /**
-     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
-     * @var
-     */
-    private $posts;
+//    /**
+//     * @ORM\OneToMany(targetEntity="Post", mappedBy="author")
+//     * @var
+//     */
+//    private $posts;
 
     public function __construct()
     {
@@ -82,6 +82,14 @@ class User implements UserInterface
     }
 
     /**
+     * @param mixed $password
+     */
+    public function setPassword($password): void
+    {
+        $this->password = $password;
+    }
+
+    /**
      * @return string|null The salt
      */
     public function getSalt()
@@ -94,13 +102,5 @@ class User implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
-    }
-
-    /**
-     * @param mixed $password
-     */
-    public function setPassword($password): void
-    {
-        $this->password = $password;
     }
 }

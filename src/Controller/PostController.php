@@ -5,13 +5,14 @@ namespace App\Controller;
 use App\Entity\Post;
 use App\Repository\PostRepository;
 use App\Request\CreatePostRequest;
+use App\Service\PostExporter;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Component\Pager\Paginator;
 use Knp\Component\Pager\PaginatorInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use League\Csv\CannotInsertRecord;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
@@ -31,7 +32,7 @@ class PostController
      * @param TokenStorageInterface $storage
      * @param Environment $twig
      * @param PostRepository $repository
-     * @param Paginator $pager
+     * @param PaginatorInterface $pager
      * @param Request $request
      * @return Response
      * @throws LoaderError
@@ -131,12 +132,36 @@ class PostController
         EntityManagerInterface $em,
         RouterInterface $router,
         FlashBagInterface $flashBag
-    )
+    ): Response
     {
         $em->remove($post);
         $em->flush();
 
         $flashBag->add('delete', "Post was successfully deleted");
         return new RedirectResponse($router->generate('guestbook'));
+    }
+
+    /**
+     * @Route(path="export", name="guestbook_export",methods={"GET"})
+     * @param PostExporter $exporter
+     * @param PostRepository $postRepository
+     * @return Response
+     * @throws CannotInsertRecord
+     */
+    public function export(PostExporter $exporter, PostRepository $postRepository): Response
+    {
+        $response = new Response(
+            $exporter->export($postRepository->findLatestPosts())
+        );
+
+        $disposition = $response->headers->makeDisposition(
+            ResponseHeaderBag::DISPOSITION_ATTACHMENT,
+            date("Y-m-d_H-i-s") . ".csv"
+        );
+
+        $response->headers->set('Content-Disposition', $disposition);
+        $response->headers->set('Content-type', 'text/csv');
+
+        return $response;
     }
 }
