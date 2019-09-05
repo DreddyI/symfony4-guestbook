@@ -1,0 +1,76 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PostController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+
+        .deleter {
+            cursor: pointer;
+        }
+
+        form.delete-form {
+            display: inline-block;
+            float: left;
+        }
+    </style>
+    {% for flashMessage in app.session.flashbag.get('delete') %}
+        <div class="alert alert-danger" role="alert">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
+    <div class="alert alert-success" role="alert">
+        You loged as {{ currentUser }}
+    </div>
+
+    <div class="example-wrapper">
+        {% for error in app.flashes('error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ error }}
+            </div>
+        {% endfor %}
+
+        <h1>GuestBook <a href="{{ path('guestbook_create_view') }}">[add]</a></h1>
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+        {% for post in pagination %}
+            <div class="hero">
+                <h3>{{ post.author }}</h3>
+                <h3>({{ post.createdAt|date('d.m.Y H:i') }})
+                </h3>
+                <p>{{ post.body }}</p>
+                <form action="{{ path('guestbook_delete', { 'post': post.getId() }) }}" method="post"
+                      class="delete-form">
+                    <a class="deleter">[delete]</a>
+                </form>
+                <a href="{{ path('guestbook_show', { 'post': post.getId() }) }}">[show]</a>
+            </div>
+            <hr>
+        {% endfor %}
+
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    </div>
+    <script>
+        document.querySelector('.deleter').addEventListener('click', function (event) {
+            this.closest('form').submit();
+        })
+    </script>
+{% endblock %}

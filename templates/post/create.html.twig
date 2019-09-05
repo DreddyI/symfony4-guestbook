@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello PostController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper {
+            margin: 1em auto;
+            max-width: 800px;
+            width: 95%;
+            font: 18px/1.5 sans-serif;
+        }
+
+        .example-wrapper code {
+            background: #F5F5F5;
+            padding: 2px 6px;
+        }
+
+        form {
+            width: 100%;
+        }
+
+        .field {
+            width: 90%;
+            display: block;
+            float: left;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            display: block;
+            float: left;
+            padding: 2px 5px;
+            margin: 5px;
+            border: 1px solid gray;
+        }
+
+        .alert {
+            font-size: 20px;
+        }
+    </style>
+
+    <div class="example-wrapper">
+
+        <h1>Add Post</h1>
+        <form action="{{ path('guestbook_create') }}" method="post">
+            <label for="author" class="field"><input type="text" id="author" name="author" placeholder="Guest"/></label>
+            <br style="clear:both;">
+            <label class="field" for="body"><textarea name="body" id="body"></textarea></label>
+            <br style="clear:both;">
+            <input type="submit" value="Add"/>
+        </form>
+    </div>
+{% endblock %}

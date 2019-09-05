@@ -1,0 +1,28 @@
+version: '2'
+services:
+  nginx:
+    build:
+      context: ./docker/nginx
+    volumes:
+      - ./var/log/nginx/:/var/log/nginx
+    volumes_from:
+      - php
+    ports:
+      - '80:80'
+      - '443:443'
+
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - .:/var/www/symfony
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - "./docker/database/.data:/var/lib/postgresql/data"
+    environment:
+      - POSTGRES_DB=symfony
+      - POSTGRES_USER=symfony
+      - POSTGRES_PASSWORD=symfony
